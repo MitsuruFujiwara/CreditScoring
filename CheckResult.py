@@ -11,12 +11,9 @@ from keras.layers import Dense, Activation
 df = pd.read_csv('TrainingData.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
-# number of training
-numTraining = 80000
-
 # set paramters
 classlist = list(ratings['#'])
-numClass = len(classlist)　# 22
+numClass = len(classlist)
 
 # set data
 Y = df['Ratings #']
@@ -31,32 +28,24 @@ def __trY(y):
 trY = np.array(list(__trY(Y))).reshape(len(Y), numClass)
 trX = np.array(X)
 
-# set model
-model = Sequential()
-model.add(Dense(output_dim=300, input_dim=trX.shape[1]))
-model.add(Activation('relu'))
-model.add(Dense(output_dim=300, input_dim=300))
-model.add(Activation('relu'))
-model.add(Dense(output_dim=numClass, input_dim=300))
-model.add(Activation('softmax'))
+# load model
+model = model_from_json(open('model.json').read())
+
+# load parameters
+model.load_weights('param.h5')
 
 # compile
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
 
-# training
-his = model.fit(trX, trY, nb_epoch=numTraining, verbose=2)
+# show results
+score = model.evaluate(trX, trY, verbose=0)
+print('Test loss :', score[0])
+print('Test accuracy :', score[1])
 
-# plot result
-fig = plt.figure()
-ax1 = fig.add_subplot(1,1,1)
-ax1.plot(his.history['loss'])
+result = {}
 
-# save figure
-plt.savefig('loss.png')
+result['Act'] = Y
+result['Predict'] = model.predict(trX)
 
-# save model
-json_string = model.to_json()
-open('model.json', 'w').write(json_string)
-
-# save parameters
-model.save_weights('param.h5')
+result = pd.DataFrame(result['Predict'])
+print result
