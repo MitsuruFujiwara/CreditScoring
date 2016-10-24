@@ -17,7 +17,7 @@ numClass = len(classlist)
 
 # set data
 Y = df['Ratings #']
-X = df.drop('Ratings #', 1)
+X = df.drop('Ratings #', 1).fillna(0)
 
 # convert data into vector
 def __trY(y):
@@ -44,8 +44,8 @@ print('Test accuracy :', score[1])
 
 result = {}
 
-result['Act'] = Y
-result['Predict'] = model.predict(trX)
+result['Act'] = Y-1
+result['Predict'] = model.predict_classes(trX)
 
-result = pd.DataFrame(result['Predict'])
+result = pd.DataFrame(result)
 print result

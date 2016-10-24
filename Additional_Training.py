@@ -20,7 +20,7 @@ numClass = len(classlist) # 22
 
 # set data
 Y = df['Ratings #']
-X = df.drop('Ratings #', 1).fillna(0)
+X = df.drop('Ratings #', 1)
 
 # convert data into vector
 def __trY(y):
@@ -31,14 +31,11 @@ def __trY(y):
 trY = np.array(list(__trY(Y))).reshape(len(Y), numClass)
 trX = np.array(X)
 
-# set model
-model = Sequential()
-model.add(Dense(output_dim=300, input_dim=trX.shape[1], init='uniform'))
-#model.add(Activation('relu'))
-#model.add(Dense(output_dim=300, input_dim=300, init='uniform'))
-#model.add(Activation('relu'))
-model.add(Dense(output_dim=numClass, input_dim=300, init='uniform'))
-model.add(Activation('softmax'))
+# load model
+model = model_from_json(open('model.json').read())
+
+# load parameters
+model.load_weights('param.h5')
 
 # compile
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
