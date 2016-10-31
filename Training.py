@@ -8,7 +8,7 @@ from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Activation
 
 # load dataset
-df = pd.read_csv('TrainingData.csv')
+df = pd.read_csv('TrainingData_PCA.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # number of training
@@ -19,8 +19,8 @@ classlist = list(ratings['#'])
 numClass = len(classlist) # 22
 
 # set data
-Y = df['Ratings #']
-X = df.drop('Ratings #', 1).fillna(0)
+Y = df['Y']
+X = df.drop('Y', 1).fillna(0)
 
 # convert data into vector
 def __trY(y):
@@ -33,11 +33,9 @@ trX = np.array(X)
 
 # set model
 model = Sequential()
-model.add(Dense(output_dim=300, input_dim=trX.shape[1], init='uniform'))
-#model.add(Activation('relu'))
-#model.add(Dense(output_dim=300, input_dim=300, init='uniform'))
-#model.add(Activation('relu'))
-model.add(Dense(output_dim=numClass, input_dim=300, init='uniform'))
+model.add(Dense(output_dim=13, input_dim=trX.shape[1], init='normal'))
+model.add(Activation('relu'))
+model.add(Dense(output_dim=numClass, input_dim=13, init='normal'))
 model.add(Activation('softmax'))
 
 # compile
@@ -56,7 +54,7 @@ plt.savefig('loss.png')
 
 # save model
 json_string = model.to_json()
-open('model.json', 'w').write(json_string)
+open('model_PCA.json', 'w').write(json_string)
 
 # save parameters
-model.save_weights('param.h5')
+model.save_weights('param_PCA.h5')

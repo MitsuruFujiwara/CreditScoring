@@ -33,17 +33,18 @@ class SetData(object):
 
 class ConvertData(object):
     """
-    Normalize data and add some converted dataset
+    Standardize data and add some converted dataset
     """
 
-    def __init__(self, datapath, outputpath):
+    def __init__(self, datapath, outputpath, ylabel):
         self.df = pd.read_csv(datapath)
         self.outputpath = outputpath
+        self.ylabel = ylabel
 
-    def normalize(self, data):
+    def standardize(self, data):
         res = {}
         for i, t in enumerate(list(data.columns)):
-            if t == 'Ratings #':
+            if t == self.ylabel:
                 res[t] = list(data[t])
             else:
                 x = data[t]
@@ -56,7 +57,10 @@ class ConvertData(object):
 #        res = data
 
     def main(self):
-        self.df = self.normalize(self.df)
+        self.df = self.standardize(self.df)
+        return self.df
+
+    def saveResult(self):
         self.df.to_csv(self.outputpath)
 
 if __name__ == '__main__':
