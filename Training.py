@@ -4,11 +4,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from keras.models import Sequential, model_from_json
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation
+from keras.optimizers import SGD
 
 # load dataset
-df = pd.read_csv('TrainingData_PCA.csv')
+df = pd.read_csv('TrainingData.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # number of training
@@ -19,8 +20,8 @@ classlist = list(ratings['#'])
 numClass = len(classlist) # 22
 
 # set data
-Y = df['Y']
-X = df.drop('Y', 1).fillna(0)
+Y = df['Ratings #']
+X = df.drop('Ratings #', 1).fillna(0)
 
 # convert data into vector
 def __trY(y):
@@ -33,10 +34,27 @@ trX = np.array(X)
 
 # set model
 model = Sequential()
-model.add(Dense(output_dim=13, input_dim=trX.shape[1], init='normal'))
+model.add(Dense(output_dim=244, input_dim=trX.shape[1]))
 model.add(Activation('relu'))
-model.add(Dense(output_dim=numClass, input_dim=13, init='normal'))
+model.add(Dense(output_dim=244, input_dim=244))
+model.add(Activation('relu'))
+model.add(Dense(output_dim=numClass, input_dim=244))
 model.add(Activation('softmax'))
+
+# load autoencoder
+encoder1 = load_model('encoder1.h5')
+encoder2 = load_model('encoder2.h5')
+encoder3 = load_model('encoder3.h5')
+
+# set initial weights
+w = model.get_weights()
+w[0] = encoder1.get_weights()[0]
+w[1] = encoder1.get_weights()[1]
+w[2] = encoder2.get_weights()[0]
+w[3] = encoder2.get_weights()[1]
+w[4] = encoder3.get_weights()[0]
+w[5] = encoder3.get_weights()[1]
+model.set_weights(w)
 
 # compile
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
@@ -53,8 +71,4 @@ ax1.plot(his.history['loss'])
 plt.savefig('loss.png')
 
 # save model
-json_string = model.to_json()
-open('model_PCA.json', 'w').write(json_string)
-
-# save parameters
-model.save_weights('param_PCA.h5')
+model.save('model.h5')

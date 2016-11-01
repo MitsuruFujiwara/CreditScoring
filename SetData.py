@@ -61,7 +61,7 @@ class ConvertData(object):
         return self.df
 
     def saveResult(self):
-        self.df.to_csv(self.outputpath)
+        self.df.to_csv(self.outputpath, index=None)
 
 if __name__ == '__main__':
     datapath = 'Data.csv'
@@ -73,9 +73,11 @@ if __name__ == '__main__':
     sd.main()
 
     # convert training data
-    cd_tr = ConvertData('TrainingData_raw.csv', 'TrainingData.csv')
-    cd_tr.main()
+    cd_tr = ConvertData('TrainingData_raw.csv', 'TrainingData.csv', 'Ratings #')
+    df = cd_tr.main()
+    df.ix[:13,:].to_csv('TrainingData.csv', index=None)
+    df.ix[14:,:].to_csv('testData.csv', index=None)
 
     # convert test data
-    cd_test = ConvertData('testData.csv', 'testData.csv')
-    cd_test.main()
+#    cd_test = ConvertData('testData.csv', 'testData.csv')
+#    cd_test.main()
