@@ -47,6 +47,7 @@ class ConvertData(object):
             if t == self.ylabel:
                 res[t] = list(data[t])
             else:
+                print t
                 x = data[t]
                 mu = x.mean()
                 sigma = x.std()
@@ -64,19 +65,19 @@ class ConvertData(object):
         self.df.to_csv(self.outputpath, index=None)
 
 if __name__ == '__main__':
-    datapath = 'Data.csv'
-    tr_output = 'TrainingData_raw.csv'
-    test_output = 'testData_raw.csv'
+    datapath = 'Data_rev.csv'
+    tr_output = 'TrainingData_raw_rev.csv'
+    test_output = 'testData_raw_rev.csv'
 
     # set raw data
     sd = SetData(datapath, tr_output, test_output)
-    sd.main()
+#    sd.main()
 
     # convert training data
-    cd_tr = ConvertData('TrainingData_raw.csv', 'TrainingData.csv', 'Ratings #')
+    cd_tr = ConvertData('TrainingData_raw_rev.csv', 'TrainingData_rev.csv', 'Ratings #')
     df = cd_tr.main()
-    df.ix[:13,:].to_csv('TrainingData.csv', index=None)
-    df.ix[14:,:].to_csv('testData.csv', index=None)
+    df.ix[27:,:].to_csv('TrainingData_rev.csv', index=None)
+    df.ix[:26,:].to_csv('testData_rev.csv', index=None)
 
     # convert test data
 #    cd_test = ConvertData('testData.csv', 'testData.csv')

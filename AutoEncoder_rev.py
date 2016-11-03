@@ -9,7 +9,7 @@ from keras.layers import Input, Dense
 from keras.models import Model
 
 # load dataset
-df = pd.read_csv('TrainingData.csv')
+df = pd.read_csv('TrainingData_rev.csv')
 
 # number of training
 numTraining = 10000
@@ -25,12 +25,12 @@ First layer
 """
 
 # set parameters
-endoding_dim1 = 244
+endoding_dim1 = 238
 input_data1 = Input(shape=(trX.shape[1],))
 
 # set layer
-encoded1 = Dense(endoding_dim1, activation='relu')(input_data1)
-decoded1 = Dense(trX.shape[1], activation='relu')(encoded1)
+encoded1 = Dense(endoding_dim1, activation='tanh')(input_data1)
+decoded1 = Dense(trX.shape[1], activation='tanh')(encoded1)
 
 # set model
 autoencoder1 = Model(input=input_data1, output=decoded1)
@@ -54,12 +54,12 @@ Second layer
 trX2 = encoder1.predict(trX)
 
 # set parameters
-endoding_dim2 = 244
-input_data2 = Input(shape=(244,))
+endoding_dim2 = 238
+input_data2 = Input(shape=(238,))
 
 # set layer
-encoded2 = Dense(endoding_dim2, activation='relu')(input_data2)
-decoded2 = Dense(244, activation='relu')(encoded2)
+encoded2 = Dense(endoding_dim2, activation='tanh')(input_data2)
+decoded2 = Dense(238, activation='tanh')(encoded2)
 
 # set model
 autoencoder2 = Model(input=input_data2, output=decoded2)
@@ -84,11 +84,11 @@ trX3 = encoder2.predict(trX2)
 
 # set parameters
 endoding_dim3 = 22
-input_data3 = Input(shape=(244,))
+input_data3 = Input(shape=(238,))
 
 # set layer
-encoded3 = Dense(endoding_dim3, activation='relu')(input_data3)
-decoded3 = Dense(244, activation='relu')(encoded3)
+encoded3 = Dense(endoding_dim3, activation='tanh')(input_data3)
+decoded3 = Dense(238, activation='tanh')(encoded3)
 
 # set model
 autoencoder3 = Model(input=input_data3, output=decoded3)

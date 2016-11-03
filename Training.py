@@ -6,10 +6,11 @@ import matplotlib.pyplot as plt
 
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation
+from keras.layers.advanced_activations import LeakyReLU
 from keras.optimizers import SGD
 
 # load dataset
-df = pd.read_csv('TrainingData.csv')
+df = pd.read_csv('TrainingData_rev.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # number of training
@@ -34,11 +35,11 @@ trX = np.array(X)
 
 # set model
 model = Sequential()
-model.add(Dense(output_dim=244, input_dim=trX.shape[1]))
-model.add(Activation('relu'))
-model.add(Dense(output_dim=244, input_dim=244))
-model.add(Activation('relu'))
-model.add(Dense(output_dim=numClass, input_dim=244))
+model.add(Dense(output_dim=238, input_dim=trX.shape[1]))
+model.add(Activation('tanh'))
+model.add(Dense(output_dim=238, input_dim=238))
+model.add(Activation('tanh'))
+model.add(Dense(output_dim=numClass, input_dim=238))
 model.add(Activation('softmax'))
 
 # load autoencoder

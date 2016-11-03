@@ -8,7 +8,7 @@ from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation
 
 # load dataset
-df = pd.read_csv('testData.csv')
+df = pd.read_csv('testData_rev.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # set paramters
