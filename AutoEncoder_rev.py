@@ -12,7 +12,7 @@ from keras.models import Model
 df = pd.read_csv('TrainingData_rev.csv')
 
 # number of training
-numTraining = 10000
+numTraining = 50000
 
 # set data
 X = df.drop('Ratings #', 1).fillna(0)
