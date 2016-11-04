@@ -14,7 +14,7 @@ df = pd.read_csv('TrainingData_rev.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # number of training
-numTraining = 80000
+numTraining = 10000
 
 # set paramters
 classlist = list(ratings['#'])
