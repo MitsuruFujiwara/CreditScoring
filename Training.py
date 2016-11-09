@@ -10,11 +10,11 @@ from keras.layers.advanced_activations import LeakyReLU
 from keras.optimizers import SGD
 
 # load dataset
-df = pd.read_csv('TrainingData_rev.csv')
+df = pd.read_csv('TrainingData_rev2.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # number of training
-numTraining = 10000
+numTraining = 20000
 
 # set paramters
 classlist = list(ratings['#'])
@@ -36,9 +36,9 @@ trX = np.array(X)
 # set model
 model = Sequential()
 model.add(Dense(output_dim=238, input_dim=trX.shape[1]))
-model.add(Activation('tanh'))
+model.add(Activation('relu'))
 model.add(Dense(output_dim=238, input_dim=238))
-model.add(Activation('tanh'))
+model.add(Activation('relu'))
 model.add(Dense(output_dim=numClass, input_dim=238))
 model.add(Activation('softmax'))
 

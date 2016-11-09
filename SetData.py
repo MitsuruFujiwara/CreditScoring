@@ -47,7 +47,6 @@ class ConvertData(object):
             if t == self.ylabel:
                 res[t] = list(data[t])
             else:
-                print t
                 x = data[t]
                 mu = x.mean()
                 sigma = x.std()

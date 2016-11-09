@@ -2,13 +2,11 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
-from keras.models import Sequential, load_model
-from keras.layers import Dense, Activation
+from keras.models import load_model
 
 # load dataset
-df = pd.read_csv('testData_rev.csv')
+df = pd.read_csv('testData_rev2.csv')
 ratings = pd.read_csv('RatingsTable.csv')
 
 # set paramters

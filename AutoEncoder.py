@@ -104,12 +104,12 @@ class AutoEncoderBase(object):
 
 if __name__ == '__main__':
     # test
-    datapath = 'TrainingData_rev.csv'
+    datapath = 'TrainingData_rev2.csv'
     ylabel = 'Ratings #'
     input_dim = 455
     output_dim = 22
 
-    ae = AutoEncoderBase(datapath, ylabel, input_dim, output_dim, numTraining=50000, activation='tanh')
+    ae = AutoEncoderBase(datapath, ylabel, input_dim, output_dim)
     result = ae.fit()
 
     # save result
